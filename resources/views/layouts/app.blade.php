@@ -50,26 +50,7 @@
                             @endif
                         @else
 
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <i class="fa fa-globe"></i>Notification
-                                    <span class="badge badge-danger">{{auth()->user()->unreadNotifications->count()}}</span>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @if(auth()->user()->unreadNotifications->count())
-                                        @foreach(auth()->user()->unreadNotifications as $notification)
-                                            <a href="#" class="dropdown-item">
-                                                {{ $notification->data['lesson']['title'] }}
-                                            </a>
-                                        @endforeach
-                                    @else
-                                    <a href="#" class="dropdown-item">
-                                        No Notification
-                                    </a>
-                                    @endif
-                                </div>
-                            </li>
+                            <lesson-notification></lesson-notification>
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

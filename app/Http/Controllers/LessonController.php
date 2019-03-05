@@ -26,12 +26,32 @@ class LessonController extends Controller
 
         $user = User::where('id','!=',auth()->user()->id)->get();
 
-        if(Notification::send($user, new NewLessonNotification(Lesson::latest('id')->first())))
-        {
-            return back();
-        }
-
-
+        Notification::send($user, new NewLessonNotification(Lesson::latest('id')->first()));
     }
 
+    public function readLesson()
+    {
+        return auth()->user()->unreadNotifications;
+    }
+
+    public function markAsRead()
+    {
+        auth()->user()->unreadNotifications->markAsRead();
+        $lessons = auth()->user()->readNotifications->take(5)->sortBy('created_at');
+        return view('lesson', compact('lessons'));
+    }
+
+    public function readNotificationById($not_id,$lesson_id)
+    {
+        auth()->user()->unreadNotifications->find($not_id)->markAsRead();
+        $lesson = Lesson::find($lesson_id);
+        dump($lesson);
+    }
+
+    public function showLesson()
+    {
+        auth()->user()->unreadNotifications->markAsRead();
+
+        return auth()->user()->readNotifications;
+    }
 }

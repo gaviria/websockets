@@ -21,6 +21,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('lesson-component', require('./components/LessonNotification.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,5 +30,25 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+
+    data: {
+        lesson:'',
+    },
+
+    created(){
+        if(window.Laravel.userID){
+            axios.get('/notification/lesson/notification').
+                then(response=>{
+                    this.lesson=response.data;
+                    console.log(response.data);
+            });
+
+            Echo.private('App.User',window.Laravel.userID).notification((response)=>{
+                data = {"data":response};
+                this.lessons.push(data);
+                console.log(response);
+            });
+        }
+    }
 });

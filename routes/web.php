@@ -19,3 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/lesson/create', 'LessonController@newLesson')->name('home');
+Route::post('/notification/lesson/notification', 'LessonController@notification')->name('home');
